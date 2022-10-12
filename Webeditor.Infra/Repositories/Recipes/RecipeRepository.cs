@@ -1,5 +1,5 @@
-using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using Webeditor.Domain.Entities.Recipes;
 using Webeditor.Domain.Interfaces.Recipes;
 using Webeditor.Domain.Models;
@@ -45,6 +45,7 @@ public class RecipeRepository : BaseRepository<Recipe>, IRecipeRepository
       query = query.Include(recipe => recipe.RecipeCategory)
         .Include(recipe => recipe.RecipeImages.Where(i => i.RemovedAt == null))
         .Include(recipe => recipe.RecipeRates.Where(r => r.RemovedAt == null))
+        .Include(recipe => recipe.RecipeTags.Where(t => t.RemovedAt == null))
         .Where(recipe => recipe.RemovedAt == null &&
           recipe.SystemCompanyId == systemCompanyId &&
           recipe.RecipeCategory.RemovedAt == null);
@@ -98,6 +99,7 @@ public class RecipeRepository : BaseRepository<Recipe>, IRecipeRepository
           .ThenInclude(c => c.RecipeTags)
         .Include(recipe => recipe.RecipeImages.Where(image => image.RemovedAt == null))
         .Include(recipe => recipe.RecipeRates.Where(rate => rate.RemovedAt == null))
+        .Include(recipe => recipe.RecipeTags.Where(tag => tag.RemovedAt == null))
         .Where(recipe => recipe.RemovedAt == null &&
           recipe.SystemCompanyId == systemCompanyId && recipe.Guid == guid &&
           recipe.RecipeCategory.RemovedAt == null)

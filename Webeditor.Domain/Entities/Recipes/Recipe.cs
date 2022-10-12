@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Webeditor.Domain.Enuns;
 
 namespace Webeditor.Domain.Entities.Recipes;
@@ -40,16 +41,24 @@ public class Recipe : EntityBase
 
   public ICollection<RecipeRate?> RecipeRates { get; private set; }
 
-  public ICollection<RecipeTag?> RecipeTags { get; private set; }
+  public ICollection<RecipeTag> RecipeTags { get; private set; }
 
   public void AddCategory(RecipeCategory recipeCategory)
   {
     RecipeCategory = recipeCategory;
   }
 
-  public void AddTag(List<RecipeTag?> tags)
+  public void AddTag(RecipeTag tag)
   {
-    RecipeTags = tags;
+    if (RecipeTags == null)
+    {
+      RecipeTags = new Collection<RecipeTag>();
+    }
+
+    if (!RecipeTags.Contains(tag))
+    {
+      RecipeTags.Add(tag);
+    }
   }
 
   public void AddImages(ICollection<RecipeImage> recipeImages)

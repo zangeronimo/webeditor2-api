@@ -16,16 +16,19 @@ public class RecipeService : IRecipeService
   private readonly IRecipeRepository _recipeRepository;
   private readonly IRecipeCategoryRepository _recipeCategoryRepository;
   private readonly IRecipeImageRepository _recipeImageRepository;
+  private readonly IRecipeTagRepository _recipeTagRepository;
   private readonly IFileUploadProvider _fileUploadProvider;
 
   public RecipeService(IRecipeRepository recipeRepository,
     IRecipeCategoryRepository recipeCategoryRepository,
     IRecipeImageRepository recipeImageRepository,
+    IRecipeTagRepository recipeTagRepository,
     IFileUploadProvider fileUploadProvider)
   {
     _recipeRepository = recipeRepository;
     _recipeCategoryRepository = recipeCategoryRepository;
     _recipeImageRepository = recipeImageRepository;
+    _recipeTagRepository = recipeTagRepository;
     _fileUploadProvider = fileUploadProvider;
   }
 
@@ -88,6 +91,18 @@ public class RecipeService : IRecipeService
       if (recipeImages.Any())
         recipe.AddImages(recipeImages);
 
+      if (payload.Tags != null && payload.Tags.Any())
+      {
+        payload.Tags.ForEach(async tag =>
+        {
+          RecipeTag? recipeTag = await _recipeTagRepository.GetByGuidAsync(tag, systemCompanyId);
+          if (recipeTag != null)
+          {
+            recipe.AddTag(recipeTag);
+          }
+        });
+      }
+
       await _recipeRepository.UpdateAsync(recipe);
       return recipe;
     }
@@ -124,6 +139,18 @@ public class RecipeService : IRecipeService
       var recipeImages = await _recipeImageRepository.GetAllByRecipeAsync(recipe.Id, systemCompanyId);
       if (recipeImages.Any())
         recipe.AddImages(recipeImages);
+
+      if (payload.Tags != null && payload.Tags.Any())
+      {
+        payload.Tags.ForEach(async tag =>
+        {
+          RecipeTag? recipeTag = await _recipeTagRepository.GetByGuidAsync(tag, systemCompanyId);
+          if (recipeTag != null)
+          {
+            recipe.AddTag(recipeTag);
+          }
+        });
+      }
 
       await _recipeRepository.UpdateAsync(recipe);
       return recipe;

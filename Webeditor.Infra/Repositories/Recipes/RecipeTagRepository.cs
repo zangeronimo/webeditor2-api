@@ -1,5 +1,5 @@
-using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using Webeditor.Domain.Entities.Recipes;
 using Webeditor.Domain.Interfaces.Recipes;
 using Webeditor.Domain.Models;
@@ -99,8 +99,7 @@ public class RecipeTagRepository : BaseRepository<RecipeTag>, IRecipeTagReposito
   {
     try
     {
-      return await DbSet.Include(tag => tag.RecipeCategory)
-        .Where(tag => tag.RemovedAt == null &&
+      return await DbSet.Where(tag => tag.RemovedAt == null &&
           tag.SystemCompanyId == systemCompanyId && tag.Guid == guid)
         .FirstOrDefaultAsync();
     }

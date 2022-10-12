@@ -20,8 +20,9 @@ public class CreateRecipeDto
   public ActiveEnum Active { get; set; }
 
   [Required(ErrorMessage = "{0} is required")]
-
   public Guid RecipeCategoryGuid { get; set; }
+
+  public List<Guid>? Tags { get; set; }
 
   public string? Image { get; set; }
 }
