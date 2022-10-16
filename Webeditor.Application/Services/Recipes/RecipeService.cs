@@ -140,16 +140,17 @@ public class RecipeService : IRecipeService
       if (recipeImages.Any())
         recipe.AddImages(recipeImages);
 
+      recipe.RemoveAllTags();
       if (payload.Tags != null && payload.Tags.Any())
       {
-        payload.Tags.ForEach(async tag =>
+        for (int i = 0; i < payload.Tags.Count; i++)
         {
-          RecipeTag? recipeTag = await _recipeTagRepository.GetByGuidAsync(tag, systemCompanyId);
+          RecipeTag? recipeTag = await _recipeTagRepository.GetByGuidAsync(payload.Tags[i], systemCompanyId);
           if (recipeTag != null)
           {
             recipe.AddTag(recipeTag);
           }
-        });
+        };
       }
 
       await _recipeRepository.UpdateAsync(recipe);

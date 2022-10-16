@@ -24,6 +24,9 @@ public class RecipeTagRepository : BaseRepository<RecipeTag>, IRecipeTagReposito
       if (!string.IsNullOrEmpty(filter?.Word))
         query = query.Where(tag => tag.Name.Contains(filter.Word));
 
+      if (filter?.RecipeCategoryGuid != null)
+        query = query.Where(tag => tag.RecipeCategory.Guid == filter.RecipeCategoryGuid);
+
       if (filter?.Guid != null)
         query = query.Where(tag => tag.Guid == filter.Guid);
 

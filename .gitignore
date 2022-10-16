@@ -457,6 +457,9 @@ Webeditor.API/appsettings.json
 Webeditor.API/appsettings.Development.json
 Webeditor.API/appsettings.Development.json
 
+Webeditor.API/UploadedFiles/*
+!Webeditor.API/UploadedFiles/.gitkeep
+
 Webeditor.API/bin
 Webeditor.API/obj
 

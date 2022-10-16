@@ -4,5 +4,5 @@ public class RecipeFilterModel : BaseFilterModel
 {
   public string? Word { get; set; }
 
-  public long? RecipeCategoryId { get; set; }
+  public Guid? RecipeCategoryGuid { get; set; }
 }

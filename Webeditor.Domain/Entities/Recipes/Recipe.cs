@@ -48,6 +48,11 @@ public class Recipe : EntityBase
     RecipeCategory = recipeCategory;
   }
 
+  public void RemoveAllTags()
+  {
+    RecipeTags = new List<RecipeTag>();
+  }
+
   public void AddTag(RecipeTag tag)
   {
     if (RecipeTags == null)
